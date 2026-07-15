@@ -49,11 +49,18 @@ Del board de Diseño (`/design-requests`) o de la cola `agent_jobs`. Ver `regist
 1. `browser_navigate` a la URL del post (`https://www.instagram.com/p/<code>/`).
 2. Extraer las URLs reales del **JSON embebido, NO del DOM**:
    `browser_evaluate` → en `script[type="application/json"]` buscar `carousel_media[]`,
-   tomar por slide el candidato de mayor `width` en `image_versions2.candidates`.
+   tomar `image_versions2.candidates[0].url` de cada slide.
    - ⚠️ **No scrapear `<img>` del DOM**: agarra miniaturas de OTROS posts del perfil (bug real ya visto).
-3. Descargar **dentro** del navegador (las URLs del CDN dan **403** fuera de la sesión):
-   `browser_evaluate` con `fetch` → `blob` → `readAsDataURL` → array base64, guardado con `filename`.
-4. Decodificar: `python scripts/decode_slides.py <json> <carpeta-salida>`.
+   - ⚠️ Los `candidates` **NO traen campo `width`** (verificado 2026-07-15). Un reducer tipo
+     `b.width > a.width` devuelve `null` en todas las slides y parece un problema de login: no lo es.
+     El candidato **[0] es el de mayor resolución**; están ordenados de mayor a menor.
+3. Descargar las imágenes. **Python las baja directo** (verificado 2026-07-15: HTTP 200 sin sesión).
+   Si alguna vez dan 403, el plan B es `browser_evaluate` con `fetch` → `blob` → `readAsDataURL`.
+4. Verificar que cada archivo empiece con el magic JPEG `ffd8ff` antes de leerlo con visión.
+
+> **Sesión de IG:** para *leer* el JSON y bajar las imágenes de un post público **no hace falta login**.
+> Un post borrado da "Post isn't available" incluso logueado — eso NO es falta de sesión, es un
+> referente muerto: cerrar el job con `fail`, no reintentar.
 
 ## Paso 2 — Leer la estructura del referente (el molde)
 
