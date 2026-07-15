@@ -4,13 +4,19 @@
 El worker usa esto para: listar jobs pendientes, reclamarlos (processing), y cerrarlos
 (done + result_url, o failed + error). Auth = pipeline API key (header X-API-Key).
 
-Contrato de endpoints (PR #306, /api/v1):
+Auth (PR #424): DOS modos, y el router elige.
+  - Diseniadora: su propio token JWT -> la cola YA viene acotada a SUS jobs.
+    Se saca con `python scripts/login.py` (queda en .prewave-token).
+  - Ops: la pipeline API key -> la cola completa.
+
+Contrato de endpoints (PR #306 + #424, /api/v1):
   GET   /agent-jobs?status=pending          -> [{id, design_request_id, reference_url, avatar_hint, status, ...}]
   PATCH /agent-jobs/:id  {status, result_url?, error?}
 
 Env:
   PREWAVE_API_BASE   (default https://api.prewave.oracle30x.co/api/v1)
-  PIPELINE_API_KEY   (obligatorio; el mismo valor seteado en el API en post-deploy)
+  PREWAVE_TOKEN      (token de la diseniadora; si falta, se lee de .prewave-token)
+  PIPELINE_API_KEY   (solo ops; da acceso a TODA la cola)
 
 Uso:
   python queue_client.py list
@@ -23,20 +29,49 @@ Como librería:
 """
 import json
 import os
+import pathlib
 import sys
 import urllib.request
 
 API_BASE = os.environ.get("PREWAVE_API_BASE", "https://api.prewave.oracle30x.co/api/v1").rstrip("/")
 API_KEY = os.environ.get("PIPELINE_API_KEY", "")
+TOKEN_FILE = pathlib.Path(__file__).resolve().parent.parent / ".prewave-token"
+
+
+def _token() -> str:
+    """Token de la diseniadora: del entorno, o del archivo que dejo login.py."""
+    tok = os.environ.get("PREWAVE_TOKEN", "").strip()
+    if tok:
+        return tok
+    try:
+        return TOKEN_FILE.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _auth_headers() -> dict:
+    """El token propio manda; la API key es el fallback de ops.
+
+    Se prefiere el JWT a proposito: la cola viene acotada a los jobs de quien
+    llama, asi dos workers no se roban trabajo.
+    """
+    tok = _token()
+    if tok:
+        return {"Authorization": f"Bearer {tok}"}
+    if API_KEY:
+        return {"X-API-Key": API_KEY}
+    raise SystemExit(
+        "ERROR: no hay credenciales.\n"
+        "  Corre en TU terminal:  python scripts/login.py\n"
+        "  (ops: exportar PIPELINE_API_KEY)"
+    )
 
 
 def _req(method: str, path: str, body: dict | None = None) -> dict | list:
-    if not API_KEY:
-        raise SystemExit("ERROR: falta PIPELINE_API_KEY en el entorno.")
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(
         f"{API_BASE}{path}", data=data, method=method,
-        headers={"X-API-Key": API_KEY, "Content-Type": "application/json"},
+        headers={**_auth_headers(), "Content-Type": "application/json"},
     )
     with urllib.request.urlopen(req, timeout=30) as r:
         raw = r.read().decode()

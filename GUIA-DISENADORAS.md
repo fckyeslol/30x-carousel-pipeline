@@ -42,39 +42,39 @@ git clone https://github.com/fckyeslol/30x-carousel-pipeline.git
 > Más adelante, para traer actualizaciones: `git pull` dentro de esa carpeta.
 
 ### 5. Acceso a la cola — con TU usuario de Prewave
-Entrás con **tu mismo usuario del board** (no hay claves compartidas). Tu worker solo verá **tus** trabajos.
+Entrás con **tu mismo usuario del board**. No hay claves compartidas: tu worker solo verá **tus** trabajos.
 
-**a) Pedí tu token.** En una terminal, reemplazá tu email y tu contraseña de Prewave:
+En la terminal, dentro de la carpeta `30x-carousel-pipeline`, corré:
 
 ```
-curl -s -X POST https://api.prewave.oracle30x.co/api/v1/auth/login -H "Content-Type: application/json" -d "{\"email\":\"TU-EMAIL@30x.com\",\"password\":\"TU-CONTRASEÑA\"}"
+python scripts/login.py
 ```
 
-De la respuesta, copiá **solo** lo que está entre comillas después de `"token":`. Es un texto largo.
+Te va a pedir tu email y tu contraseña de Prewave. **La contraseña no se ve mientras la escribís** — es a
+propósito: escribí a ciegas y dale enter. Listo, no hay que copiar ni pegar nada más.
 
-**b) Guardalo** en la misma terminal donde vas a abrir Claude Code:
-
-- **Windows (PowerShell):** `$env:PREWAVE_TOKEN = "pegá-acá-el-token"`
-- **Mac:** `export PREWAVE_TOKEN="pegá-acá-el-token"`
-
-> 🔐 **Ese token es como tu contraseña**: da acceso a Prewave con tus permisos. No lo pegues en el chat
-> del equipo, no lo subas al repo, no se lo pases a nadie. **Dura 30 días**; cuando falle, repetí el paso (a).
+> 🔐 **Corré este comando vos, en tu terminal — no se lo pidas a Claude.** Así tu contraseña no queda escrita
+> en el chat ni en el historial de la terminal. (Aunque se lo pidas, Claude no puede: su terminal no es
+> interactiva y no podría escribirla.)
 >
-> ⚠️ **Si te responde "This account uses Google sign-in"**: tu cuenta no tiene contraseña porque entrás
-> con Google. Avisale a Mateo — hay que darte una o sacarte el token de otra forma.
+> Tu token queda guardado en el archivo `.prewave-token`, que **git ignora** — no se sube a ningún lado.
+> **Dura 30 días**: cuando la cola empiece a dar 401, volvés a correr lo mismo.
+>
+> ⚠️ Si te dice **"tu cuenta entra con Google, no tiene contraseña"**: avisale a Mateo.
+
+**Todo lo demás se lo podés pedir a Claude Code.** Una vez que este comando te dijo "OK", abrí Claude Code
+en esa carpeta y pedile que prenda tu worker (Parte 2).
 
 ---
 
 ## PARTE 2 · Prender tu worker (cada vez que vas a trabajar)
 
-1. Abrí **Claude Code** dentro de la carpeta `30x-carousel-pipeline`, en la **misma terminal** donde
-   guardaste tu `PREWAVE_TOKEN` (paso 5b).
-2. Pegá esto y dale enter:
+1. Abrí **Claude Code** dentro de la carpeta `30x-carousel-pipeline`.
+2. Pegá esto y dale enter (toma tu token solo, del paso 5):
 
 ```
-/loop 20m Worker de carruseles 30x: tomá el PREWAVE_TOKEN del entorno y consultá
-GET https://api.prewave.oracle30x.co/api/v1/agent-jobs?status=pending con el header
-Authorization: Bearer $PREWAVE_TOKEN (esa cola ya viene acotada a MIS trabajos).
+/loop 20m Worker de carruseles 30x: usá scripts/queue_client.py (toma mi token solo)
+para listar los jobs pendientes: esa cola YA viene acotada a MIS trabajos.
 Si no hay pendientes, no hagas nada. Por cada job pendiente: PATCH status=processing;
 construí el carrusel siguiendo AGENT.md — la REFERENCIA es el molde (bajá sus slides y leé
 su estructura) y el ADN del avatar es la máquina (tipografía, paleta, voz); esculpí sobre el
@@ -107,7 +107,7 @@ datos ni cifras**. No decide por vos: siempre queda un borrador para tu revisió
 | Síntoma | Qué pasa / qué hacer |
 |---|---|
 | Aprieto "Generar 30x" y no pasa nada | **No hay ningún worker prendido.** Prendé el tuyo (Parte 2) |
-| La cola me da **401** | Tu token venció (dura 30 días). Repetí el paso 5a |
+| La cola me da **401** | Tu token venció (dura 30 días). Corré `python scripts/login.py` otra vez |
 | Veo trabajos que no son míos | No debería pasar: la cola ya viene acotada a los tuyos. Avisá |
 | Canva da error / pide login | El conector caducó (pasa cada ~90 días). Reconectá Canva con la cuenta 30x |
 | No baja el referente de Instagram | Tu navegador de Playwright no está logueado en IG. Abrilo e iniciá sesión |
