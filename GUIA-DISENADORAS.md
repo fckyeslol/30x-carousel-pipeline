@@ -41,28 +41,45 @@ git clone https://github.com/fckyeslol/30x-carousel-pipeline.git
 ```
 > Más adelante, para traer actualizaciones: `git pull` dentro de esa carpeta.
 
-### 5. Acceso a la cola — ⏸️ PENDIENTE
-> **No hagas nada todavía en este paso.** Estamos sacando un cambio para que entres con **tu propio
-> usuario de Prewave** (el mismo del board) en vez de manejar una clave. **Te avisamos cuando esté** y
-> actualizamos esta guía. Mientras tanto, completá los pasos 1 a 4 — son los que más tardan y no cambian.
+### 5. Acceso a la cola — con TU usuario de Prewave
+Entrás con **tu mismo usuario del board** (no hay claves compartidas). Tu worker solo verá **tus** trabajos.
+
+**a) Pedí tu token.** En una terminal, reemplazá tu email y tu contraseña de Prewave:
+
+```
+curl -s -X POST https://api.prewave.oracle30x.co/api/v1/auth/login -H "Content-Type: application/json" -d "{\"email\":\"TU-EMAIL@30x.com\",\"password\":\"TU-CONTRASEÑA\"}"
+```
+
+De la respuesta, copiá **solo** lo que está entre comillas después de `"token":`. Es un texto largo.
+
+**b) Guardalo** en la misma terminal donde vas a abrir Claude Code:
+
+- **Windows (PowerShell):** `$env:PREWAVE_TOKEN = "pegá-acá-el-token"`
+- **Mac:** `export PREWAVE_TOKEN="pegá-acá-el-token"`
+
+> 🔐 **Ese token es como tu contraseña**: da acceso a Prewave con tus permisos. No lo pegues en el chat
+> del equipo, no lo subas al repo, no se lo pases a nadie. **Dura 30 días**; cuando falle, repetí el paso (a).
+>
+> ⚠️ **Si te responde "This account uses Google sign-in"**: tu cuenta no tiene contraseña porque entrás
+> con Google. Avisale a Mateo — hay que darte una o sacarte el token de otra forma.
 
 ---
 
 ## PARTE 2 · Prender tu worker (cada vez que vas a trabajar)
 
-> ⏸️ **Esta parte todavía no se puede usar** — depende del **paso 5**, que está pendiente.
-> Te avisamos apenas esté listo. Dejamos las instrucciones acá para que ya las tengas.
-
-1. Abrí **Claude Code** dentro de la carpeta `30x-carousel-pipeline`.
+1. Abrí **Claude Code** dentro de la carpeta `30x-carousel-pipeline`, en la **misma terminal** donde
+   guardaste tu `PREWAVE_TOKEN` (paso 5b).
 2. Pegá esto y dale enter:
 
 ```
-/loop 20m Worker de carruseles 30x: obtené la PIPELINE_API_KEY del entorno y consultá
-GET https://api.prewave.oracle30x.co/api/v1/agent-jobs?status=pending con header X-API-Key.
+/loop 20m Worker de carruseles 30x: tomá el PREWAVE_TOKEN del entorno y consultá
+GET https://api.prewave.oracle30x.co/api/v1/agent-jobs?status=pending con el header
+Authorization: Bearer $PREWAVE_TOKEN (esa cola ya viene acotada a MIS trabajos).
 Si no hay pendientes, no hagas nada. Por cada job pendiente: PATCH status=processing;
-reconstruí el carrusel siguiendo AGENT.md (bajá las slides del reference_url con Playwright,
-leélas con visión, clasificá, duplicá el template del avatar, rellená en español SIN inventar
-datos ni cifras, commit); cerrá con PATCH {status:"done", resultUrl:"<link de Canva>"} o
+construí el carrusel siguiendo AGENT.md — la REFERENCIA es el molde (bajá sus slides y leé
+su estructura) y el ADN del avatar es la máquina (tipografía, paleta, voz); esculpí sobre el
+lienzo del avatar, en español, SIN inventar datos ni cifras, y commiteá la transacción;
+cerrá con PATCH {status:"done", resultUrl:"<link de Canva>"} o
 {status:"failed", error:"<motivo>"} si falla.
 ```
 
@@ -90,6 +107,8 @@ datos ni cifras**. No decide por vos: siempre queda un borrador para tu revisió
 | Síntoma | Qué pasa / qué hacer |
 |---|---|
 | Aprieto "Generar 30x" y no pasa nada | **No hay ningún worker prendido.** Prendé el tuyo (Parte 2) |
+| La cola me da **401** | Tu token venció (dura 30 días). Repetí el paso 5a |
+| Veo trabajos que no son míos | No debería pasar: la cola ya viene acotada a los tuyos. Avisá |
 | Canva da error / pide login | El conector caducó (pasa cada ~90 días). Reconectá Canva con la cuenta 30x |
 | No baja el referente de Instagram | Tu navegador de Playwright no está logueado en IG. Abrilo e iniciá sesión |
 | El job quedó en **"failed"** | Mirá el motivo en el error. Suele ser: referencia que no es carrusel, o alguno de los dos puntos de arriba |
@@ -99,10 +118,10 @@ datos ni cifras**. No decide por vos: siempre queda un borrador para tu revisió
 
 ## Límites actuales (para que no te sorprendan)
 
-- **El worker toma TODOS los pendientes, no solo los tuyos.** El filtro por diseñadora está pendiente de
-  desarrollo. Por ahora: **coordinen quién corre el worker** para no pisarse.
-- **Las plantillas por avatar aún no están cargadas** → los borradores usan un molde interino, así que la
-  *piel* puede no ser la de la cuenta destino. El contenido sí es correcto.
+- **Solo Cinthya y Guillermo tienen ADN cargado.** Un job de otro avatar queda en la cola sin procesar.
+- **Los fondos de los lienzos todavía están en blanco** (falta pintarlos de `#F6F5F0` una vez).
+- **Referencias tipográficas sí, infografías no.** El lienzo solo tiene bloques de texto: un referente que
+  sea una grilla de recuadros, tablas o calendarios **no se puede replicar**.
 - **No es 100% automático:** requiere tu worker prendido, y re-conectar Canva cada ~90 días.
 - **Referentes muy elaborados** (gráficos, timelines, ilustraciones) no se reproducen tal cual: la IA transpone
   el **contenido**, no los gráficos personalizados.
