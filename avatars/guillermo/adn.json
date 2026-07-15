@@ -1,0 +1,67 @@
+{
+  "avatar": {
+    "slug": "guillermo",
+    "name": "Guillermo Jaramillo",
+    "prewave_avatar_id": "",
+    "prewave_program_match": ["Guillermo Jaramillo", "Guillermo", "Cuenta Guillermo"]
+  },
+
+  "brand": {
+    "handle": "",
+    "_handle_TODO": "Falta el handle de IG de Guillermo — el manual de ADN no lo incluye (usa firma, no handle).",
+    "tagline": "",
+    "cta_default": "Síguenos y guarda",
+    "voice": "tuteo/neutral (a confirmar con él)"
+  },
+
+  "voice_dna": {
+    "tono": ["directo", "ejecutivo", "de acción"],
+    "do": [
+      "mantener cifras/datos EXACTOS del referente",
+      "posicionamiento: Transformador digital · Former CEO KPMG Colombia · hoy lidera transformación e IA en BBVA Colombia",
+      "actitud 'BE A DOER' (del manual)",
+      "firmar como '30X / GUILLERMO JARAMILLO'"
+    ],
+    "dont": [
+      "NO inventar cifras, fuentes ni datos que no estén en el referente",
+      "NO usar la marca/voz de otro mentor (Cinthya, Andrés, Multipliers, etc.)",
+      "NO usar la tipografía ni la paleta de otro avatar"
+    ]
+  },
+
+  "visual_identity": {
+    "_fuente": "Manual '8 marcas · 1 ADN' — ADN 2 GUILLERMO JARAMILLO. Canva design DAHPd_cI5B0, en la cuenta de Canva de 30x (link con token: pedirlo internamente, NO va en este repo).",
+    "_nota_critica": "La API de Canva NO cambia la familia tipográfica: para que un carrusel salga en Open Sans, su TEMPLATE debe estar construido en esa fuente. Esta spec sirve para CONSTRUIR/validar la plantilla, no para que el agente la aplique por texto.",
+    "titulo_rol": "Transformador digital — Former CEO / KPMG Colombia",
+    "firma": "30X / GUILLERMO JARAMILLO",
+    "tipografia": {
+      "familia": "Open Sans",
+      "licencia": "https://fonts.google.com/specimen/Open+Sans",
+      "nota": "Sans humanista, neutral y legible; optimizada para print, web y mobile."
+    },
+    "paleta": [
+      { "hex": "#F6F5F0", "nombre": "30% White", "rol": "base/fondo claro" },
+      { "hex": "#000000", "nombre": "Negro", "rol": "complementario" },
+      { "hex": "#C9C9C7", "nombre": "Gris claro", "rol": "complementario" },
+      { "hex": "#FFD400", "nombre": "Amarillo", "rol": "principal (acento)" }
+    ],
+    "_paleta_nota": "El manual marca dos COMPLEMENTARIO y un PRINCIPAL; el amarillo #FFD400 es el acento distintivo de Guillermo (equivalente al rol que el verde lima cumple en la marca 30x). Confirmar el mapeo exacto de roles visualmente antes de construir la plantilla.",
+    "fondos": ["FONDO 1 - IMAGEN", "FONDO 2 - PLANO", "FONDO 3 - FOTO MENTOR", "FONDO 4 - DEGRADÉ"],
+    "gradiente": true,
+    "frase_manifiesto": "DEJA DE TENER MIEDO A SALIR MAL, EMOCIONARTE POR LO QUE PUEDA SALIR BIEN."
+  },
+
+  "templates": {
+    "_nota": "PENDIENTE: el manual de ADN da los ESTILOS, no los layouts de carrusel. Falta construir en Canva un master de carrusel para Guillermo en Open Sans + su paleta (ver TEMPLATES-INTAKE.md), y pegar acá su design_id por tipo de lámina.",
+    "cover":       { "design_id": "", "page": 1 },
+    "data":        { "design_id": "", "slot_pages": [] },
+    "comparative": { "design_id": "", "slot_pages": [] },
+    "single_tip":  { "design_id": "", "slot_pages": [] },
+    "principle":   { "design_id": "", "page": null },
+    "process":     { "design_id": "", "page": null },
+    "insight":     { "design_id": "", "page": null },
+    "cta":         { "design_id": "", "page": null }
+  },
+
+  "status": "draft"
+}

@@ -1,0 +1,64 @@
+{
+  "avatar": {
+    "slug": "cinthya",
+    "name": "Cinthya Sánchez",
+    "prewave_avatar_id": "",
+    "prewave_program_match": ["Cinthya Sánchez", "Cinthya Sanchez", "Cinthya", "Cuenta Cinthya"]
+  },
+
+  "brand": {
+    "handle": "",
+    "_handle_TODO": "Falta el handle de IG de Cinthya — el manual de ADN no lo incluye (usa firma, no handle).",
+    "tagline": "",
+    "cta_default": "Síguenos y guarda",
+    "voice": "tuteo/neutral (a confirmar con ella)"
+  },
+
+  "voice_dna": {
+    "tono": ["experta", "ejecutiva", "cercana a la IA aplicada"],
+    "do": [
+      "mantener cifras/datos EXACTOS del referente",
+      "posicionamiento: CIO · Ex-Microsoft · Sensei de IA · Board member",
+      "firmar como '/ Cinthya Sánchez.'"
+    ],
+    "dont": [
+      "NO inventar cifras, fuentes ni datos que no estén en el referente",
+      "NO usar la marca/voz de otro mentor (Guillermo, Andrés, Multipliers, etc.)",
+      "NO usar la tipografía ni la paleta de otro avatar"
+    ]
+  },
+
+  "visual_identity": {
+    "_fuente": "Manual '8 marcas · 1 ADN' — ADN 1 CINTHYA SÁNCHEZ. Canva design DAHPd_cI5B0, en la cuenta de Canva de 30x (link con token: pedirlo internamente, NO va en este repo).",
+    "_nota_critica": "La API de Canva NO cambia la familia tipográfica: para que un carrusel salga en Instrument Serif, su TEMPLATE debe estar construido en esa fuente. Esta spec sirve para CONSTRUIR/validar la plantilla, no para que el agente la aplique por texto.",
+    "titulo_rol": "CIO · Ex-Microsoft · Sensei de IA · Board member",
+    "firma": "/ Cinthya Sánchez.",
+    "tipografia": {
+      "familia": "Instrument Serif",
+      "licencia": "https://fonts.google.com/specimen/Instrument+Serif",
+      "nota": "Display serif condensada; pensada para tamaños grandes."
+    },
+    "paleta": [
+      { "hex": "#F6F5F0", "nombre": "30% White", "rol": "base/fondo claro" },
+      { "hex": "#2A2320", "nombre": "Tierra", "rol": "?" },
+      { "hex": "#E5ACBF", "nombre": "Blush", "rol": "?" }
+    ],
+    "_paleta_TODO": "El manual referencia también un swatch 'CORAL' y asigna roles (PRINCIPAL 1 / PRINCIPAL 2 / COMPLEMENTARIO: para detalles y texto), pero la extracción de texto no permite mapear con certeza qué hex es cuál. NO lo inventé: confirmar visualmente en el manual antes de construir la plantilla.",
+    "fondos": ["FONDO 1 - IMAGEN", "FONDO 2 - PLANO", "FONDO 3 - FOTO MENTOR", "FONDO 4 - DEGRADÉ"],
+    "gradiente": true
+  },
+
+  "templates": {
+    "_nota": "PENDIENTE: el manual de ADN da los ESTILOS, no los layouts de carrusel. Falta construir en Canva un master de carrusel para Cinthya en Instrument Serif + su paleta (ver TEMPLATES-INTAKE.md), y pegar acá su design_id por tipo de lámina.",
+    "cover":       { "design_id": "", "page": 1 },
+    "data":        { "design_id": "", "slot_pages": [] },
+    "comparative": { "design_id": "", "slot_pages": [] },
+    "single_tip":  { "design_id": "", "slot_pages": [] },
+    "principle":   { "design_id": "", "page": null },
+    "process":     { "design_id": "", "page": null },
+    "insight":     { "design_id": "", "page": null },
+    "cta":         { "design_id": "", "page": null }
+  },
+
+  "status": "draft"
+}

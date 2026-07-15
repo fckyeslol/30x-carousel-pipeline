@@ -2,6 +2,25 @@
 
 Objetivo: que lleguen listas para pegar en `avatars/<slug>/adn.json` sin retrabajo.
 
+## ⚠️ Cada master se construye con el ADN de SU mentor
+
+El manual **“8 marcas · 1 ADN”** (Canva design `DAHPd_cI5B0`, en la cuenta de Canva de 30x — el link de acceso
+se pide internamente, no va en este repo) define la identidad de cada mentor: **tipografía**, **paleta** y
+**4 fondos** (imagen / plano / foto mentor / degradé).
+El master de carrusel de cada avatar **debe estar construido con esa fuente y esa paleta**.
+
+**Por qué no es negociable:** la API de Canva **no puede cambiar la familia tipográfica**. Si el master de
+Cinthya no está hecho en **Instrument Serif**, ningún carrusel suyo saldrá en Instrument Serif — el agente
+solo reemplaza texto dentro del molde. Lo mismo con los colores de fondo y los acentos.
+
+| Mentor | Tipografía | Acento / paleta |
+|---|---|---|
+| Cinthya Sánchez | **Instrument Serif** | `#F6F5F0` · `#2A2320` (Tierra) · `#E5ACBF` (Blush) |
+| Guillermo Jaramillo | **Open Sans** | `#F6F5F0` · `#000000` · `#C9C9C7` · `#FFD400` (amarillo, acento) |
+| *(resto de mentores)* | *pendiente en el manual* | *pendiente* |
+
+Los ADN de cada mentor están volcados en `avatars/<slug>/adn.json → visual_identity`.
+
 ## Opción recomendada (menos trabajo para el diseñador): 1 master por avatar
 
 Un solo diseño de Canva por avatar — **"Master 30x — <Avatar>"** — que contenga sus láminas

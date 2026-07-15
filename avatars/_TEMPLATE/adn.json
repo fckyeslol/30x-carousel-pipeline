@@ -21,6 +21,16 @@
     "dont": ["NO inventar datos/fuentes", "NO usar marca/voz de otro avatar", "<prohibiciones del ADN>"]
   },
 
+  "visual_identity": {
+    "_fuente": "Manual '8 marcas · 1 ADN' (30X Executive Education). Define el sistema de identidad de cada mentor.",
+    "_nota_critica": "La API de Canva NO puede cambiar la familia tipográfica. Estos datos describen cómo DEBE verse el avatar, pero solo se aplican si su TEMPLATE de carrusel ya está construido con esta fuente y colores. Son la especificación para construir/validar la plantilla, no algo que el agente pueda aplicar por texto.",
+    "titulo_rol": "<rol como aparece en el manual>",
+    "firma": "<cómo firma, p.ej. '/ Nombre.'>",
+    "tipografia": { "familia": "", "licencia": "" },
+    "paleta": [],
+    "fondos": ["FONDO 1 - IMAGEN", "FONDO 2 - PLANO", "FONDO 3 - FOTO MENTOR", "FONDO 4 - DEGRADÉ"]
+  },
+
   "templates": {
     "_nota": "design_id de la plantilla 30x del avatar por tipo de lámina. Vacío = pendiente. slot_pages = páginas repetibles de ese tipo dentro del molde. Ver layouts-library.md para qué es cada tipo.",
     "cover":       { "design_id": "", "page": 1 },
