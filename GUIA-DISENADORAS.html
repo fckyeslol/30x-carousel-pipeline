@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Guía · Generar carruseles 30x con IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B0B0C;
+    --ink-soft:#1A1A1D;
+    --lime:#C9F24D;
+    --lime-deep:#A8D62F;
+    --grey:#6B6B72;
+    --grey-line:#E4E4E8;
+    --paper:#FFFFFF;
+    --amber:#FFB020;
+    --red:#FF5C5C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  body{
+    font-family:'Inter',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:var(--paper);
+    font-size:10.5pt; line-height:1.55;
+    font-feature-settings:'ss01','cv05';
+  }
+  @page{ size:A4; margin:14mm 13mm; }
+
+  /* ---------- COVER ---------- */
+  .cover{
+    background:var(--ink); color:#fff;
+    height:267mm; margin:-14mm -13mm 0; padding:20mm 16mm;
+    display:flex; flex-direction:column; justify-content:space-between;
+    position:relative; overflow:hidden;
+    page-break-after:always;
+  }
+  .cover::after{ /* watermark */
+    content:"30X"; position:absolute; right:-4mm; bottom:-22mm;
+    font-size:150mm; font-weight:900; letter-spacing:-.06em;
+    color:rgba(255,255,255,.035); line-height:.8;
+  }
+  .mark{font-weight:900; font-size:15pt; letter-spacing:-.03em;}
+  .mark span{color:var(--lime);}
+  .cover-mid{position:relative; z-index:2;}
+  .kicker{
+    font-size:9pt; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--lime); margin-bottom:8mm;
+  }
+  h1{
+    font-size:34pt; font-weight:800; letter-spacing:-.035em; line-height:1.02;
+    margin-bottom:7mm; max-width:13cm;
+  }
+  h1 em{font-style:normal; background:var(--lime); color:var(--ink); padding:0 .12em;}
+  .lede{font-size:12pt; color:#C9C9CF; font-weight:400; max-width:13.5cm; line-height:1.5;}
+  .cover-foot{display:flex; justify-content:space-between; align-items:flex-end; position:relative; z-index:2;}
+  .cover-foot .who{font-size:9.5pt; color:#8A8A93;}
+  .rule{height:3px; width:26mm; background:var(--lime); margin-bottom:6mm;}
+
+  /* ---------- STRUCTURE ---------- */
+  .part{page-break-before:always;}
+  .part.first{page-break-before:auto;} /* Parte 1 sigue en la misma página que la intro */
+  .part-head{
+    display:flex; align-items:baseline; gap:5mm;
+    border-bottom:2px solid var(--ink); padding-bottom:3mm; margin-bottom:7mm;
+  }
+  .part-num{
+    font-size:9pt; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--ink); background:var(--lime); padding:1.5mm 3mm; border-radius:2mm;
+  }
+  h2{font-size:19pt; font-weight:800; letter-spacing:-.025em; line-height:1.1;}
+  .part-note{margin-left:auto; font-size:8.5pt; color:var(--grey); font-weight:500;}
+
+  h3{
+    font-size:11.5pt; font-weight:700; letter-spacing:-.01em;
+    margin:6mm 0 2mm; display:flex; gap:3mm; align-items:baseline;
+  }
+  .step-n{
+    flex:none; width:6mm; height:6mm; border-radius:50%;
+    background:var(--ink); color:var(--lime);
+    font-size:8pt; font-weight:800; display:inline-flex;
+    align-items:center; justify-content:center; transform:translateY(.5mm);
+  }
+  p{margin-bottom:2.5mm; max-width:17cm;}
+  .muted{color:var(--grey);}
+  strong{font-weight:700;}
+  a{color:var(--ink); text-decoration:underline; text-decoration-color:var(--lime-deep); text-underline-offset:2px;}
+  code{
+    font-family:'SF Mono',Consolas,monospace; font-size:8.6pt;
+    background:#F3F3F5; border:1px solid var(--grey-line); border-radius:1.5mm; padding:.3mm 1.2mm;
+  }
+
+  /* ---------- BLOCKS ---------- */
+  .intro{
+    border-left:4px solid var(--lime); background:#FAFAF7;
+    padding:5mm 6mm; margin-bottom:7mm; border-radius:0 2mm 2mm 0;
+  }
+  .callout{
+    display:flex; gap:3.5mm; padding:3.5mm 4.5mm; border-radius:2mm;
+    margin:3mm 0; font-size:9.6pt; page-break-inside:avoid;
+    background:#FFF9E9; border:1px solid #F2E2B8;
+  }
+  .callout .ic{flex:none; font-weight:800; color:var(--amber);}
+  .callout.hot{background:#FFF0F0; border-color:#F5D2D2;}
+  .callout.hot .ic{color:var(--red);}
+
+  pre{
+    background:var(--ink); color:#EDEDF2; border-radius:2.5mm;
+    padding:5mm 5.5mm; font-family:'SF Mono',Consolas,monospace;
+    font-size:8.2pt; line-height:1.5; white-space:pre-wrap; word-break:break-word;
+    margin:3mm 0; page-break-inside:avoid; position:relative;
+  }
+  pre .cmd{color:var(--lime); font-weight:700;}
+
+  table{width:100%; border-collapse:collapse; margin:3mm 0; font-size:9.4pt; page-break-inside:avoid;}
+  th{
+    text-align:left; font-size:8pt; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--grey); border-bottom:2px solid var(--ink); padding:0 0 2mm;
+  }
+  td{padding:2.8mm 0; border-bottom:1px solid var(--grey-line); vertical-align:top;}
+  td:first-child{padding-right:6mm; font-weight:600; width:38%;}
+
+  .flow{counter-reset:f; margin:4mm 0;}
+  .flow li{
+    list-style:none; counter-increment:f; position:relative;
+    padding:0 0 4mm 10mm; page-break-inside:avoid;
+  }
+  .flow li::before{
+    content:counter(f); position:absolute; left:0; top:-0.5mm;
+    width:6.5mm; height:6.5mm; border-radius:50%;
+    background:var(--lime); color:var(--ink);
+    font-size:8.5pt; font-weight:800;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .flow li::after{
+    content:""; position:absolute; left:3.25mm; top:7mm; bottom:0; width:1px; background:var(--grey-line);
+  }
+  .flow li:last-child::after{display:none;}
+
+  .limits li{list-style:none; padding:2.5mm 0 2.5mm 6mm; position:relative; border-bottom:1px solid var(--grey-line);}
+  .limits li::before{content:"—"; position:absolute; left:0; color:var(--lime-deep); font-weight:800;}
+  .limits li:last-child{border-bottom:none;}
+
+  .foot{
+    margin-top:8mm; padding-top:4mm; border-top:2px solid var(--ink);
+    display:flex; justify-content:space-between; align-items:center; font-size:9pt;
+  }
+  .badge{background:var(--ink); color:var(--lime); font-weight:700; padding:1.5mm 3mm; border-radius:1.5mm; font-size:8.5pt;}
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="cover">
+  <div class="mark">30<span>X</span></div>
+
+  <div class="cover-mid">
+    <div class="rule"></div>
+    <div class="kicker">Guía · Diseño</div>
+    <h1>Generar carruseles <em>30x</em> con IA</h1>
+    <p class="lede">Una IA toma el carrusel de referencia, lo reconstruye con nuestro formato y te deja un borrador en Canva. Vos ajustás y aprobás.</p>
+  </div>
+
+  <div class="cover-foot">
+    <div class="who">Para el equipo de Diseño<br><span style="color:#5C5C64">Setup ~30 min · una sola vez</span></div>
+    <div class="mark" style="font-size:10pt; color:#5C5C64">prewave.oracle30x.co</div>
+  </div>
+</section>
+
+<!-- ============ INTRO ============ -->
+<div class="intro">
+  <p style="font-size:11.5pt; font-weight:700; margin-bottom:2mm;">Cómo funciona, en una frase</p>
+  <p style="margin-bottom:0;">En el board de <strong>Diseño</strong>, las solicitudes con un <strong>referente de Instagram</strong> muestran el botón <strong>“Generar 30x”</strong>. Al apretarlo, la IA baja ese carrusel, lo reconstruye en formato 30x y deja un <strong>borrador en Canva</strong> en la tarjeta.</p>
+</div>
+
+<div class="callout hot">
+  <span class="ic">!</span>
+  <div><strong>Lo más importante de esta guía:</strong> la IA <strong>no corre sola en la nube</strong>. Corre un <strong>“worker” en tu computadora</strong>. Si tu worker no está prendido, el trabajo queda encolado esperando y <em>parece</em> que no pasa nada. Por eso: dejá tu worker listo y prendido.</div>
+</div>
+
+<!-- ============ PARTE 1 ============ -->
+<section class="part first">
+  <div class="part-head">
+    <span class="part-num">Parte 1</span>
+    <h2>Setup</h2>
+    <span class="part-note">Una sola vez · ~30 min</span>
+  </div>
+
+  <h3><span class="step-n">1</span> Instalar Claude Code</h3>
+  <p>Necesitás Claude Code y una cuenta/plan de Claude. Descarga e instrucciones en <a href="https://claude.com/code">claude.com/code</a>.</p>
+  <p class="muted">Si te trabás acá, pedí ayuda a Mateo/IT — es el paso más técnico de todos.</p>
+
+  <h3><span class="step-n">2</span> Conectar Canva (cuenta de 30x)</h3>
+  <p>En Claude, conectá el <strong>conector de Canva</strong> e iniciá sesión con la <strong>cuenta de Canva de 30x</strong> (la misma donde están las plantillas). Sin esto, la IA no puede crear ni editar diseños.</p>
+  <div class="callout"><span class="ic">⚠</span><div>Este login <strong>caduca cada ~90 días</strong>. Si un día Canva falla, simplemente volvé a conectarlo.</div></div>
+
+  <h3><span class="step-n">3</span> Instalar el navegador (Playwright) y loguearte en Instagram</h3>
+  <p>La IA necesita un navegador propio para bajar las slides del referente.</p>
+  <p>Instalá el <strong>MCP de Playwright</strong> en Claude <span class="muted">(comando típico: <code>claude mcp add playwright npx @playwright/mcp@latest</code> — confirmá con Mateo/IT)</span>. Después <strong>abrí ese navegador una vez e iniciá sesión en Instagram</strong>: la sesión queda guardada.</p>
+  <div class="callout"><span class="ic">⚠</span><div>Si no estás logueada en Instagram, <strong>las descargas fallan</strong> (Instagram bloquea a los no logueados).</div></div>
+
+  <h3><span class="step-n">4</span> Copiar la carpeta del pipeline</h3>
+  <p>Pedile a Mateo la carpeta <code>30x-carousel-pipeline</code> (o el link del repo) y guardala en tu compu. Ahí viven las plantillas, la lógica y los scripts.</p>
+
+  <h3><span class="step-n">5</span> Cargar la llave de acceso</h3>
+  <p>Pedile a Mateo la <code>PIPELINE_API_KEY</code> y guardala como variable de entorno con ese nombre. Es lo que le permite a tu worker leer la cola de trabajos.</p>
+</section>
+
+<!-- ============ PARTE 2 ============ -->
+<section class="part">
+  <div class="part-head">
+    <span class="part-num">Parte 2</span>
+    <h2>Prender tu worker</h2>
+    <span class="part-note">Cada vez que vas a trabajar</span>
+  </div>
+
+  <p>Abrí <strong>Claude Code</strong> dentro de la carpeta <code>30x-carousel-pipeline</code>, pegá esto y dale enter:</p>
+
+<pre><span class="cmd">/loop 20m</span> Worker de carruseles 30x: obtené la PIPELINE_API_KEY del entorno y consultá
+GET https://api.prewave.oracle30x.co/api/v1/agent-jobs?status=pending con header X-API-Key.
+Si no hay pendientes, no hagas nada. Por cada job pendiente: PATCH status=processing;
+reconstruí el carrusel siguiendo AGENT.md (bajá las slides del reference_url con Playwright,
+leélas con visión, clasificá, duplicá el template del avatar, rellená en español SIN inventar
+datos ni cifras, commit); cerrá con PATCH {status:"done", resultUrl:"&lt;link de Canva&gt;"} o
+{status:"failed", error:"&lt;motivo&gt;"} si falla.</pre>
+
+  <p>Listo: tu worker revisa la cola <strong>cada 20 minutos</strong> y genera lo que haya.</p>
+
+  <table>
+    <tr><td>Mientras la ventana esté abierta</td><td>el worker vive. Si la cerrás, <strong>se apaga</strong>.</td></tr>
+    <tr><td>¿No querés dejarlo prendido?</td><td>Pegá el mismo texto <strong>sin</strong> el <code>/loop 20m</code> y procesará la cola una sola vez, cuando vos quieras.</td></tr>
+  </table>
+</section>
+
+<!-- ============ PARTE 3 ============ -->
+<section class="part">
+  <div class="part-head">
+    <span class="part-num">Parte 3</span>
+    <h2>El flujo de trabajo</h2>
+  </div>
+
+  <ol class="flow">
+    <li><strong>En <code>/diseno</code></strong>, una solicitud con referente de IG muestra el botón <strong>“Generar 30x”</strong>.</li>
+    <li><strong>Alguien lo aprieta</strong> → el trabajo se <strong>encola</strong>.</li>
+    <li><strong>Tu worker lo toma</strong> (en el próximo ciclo) → la tarjeta pasa a <strong>“generando”</strong>.</li>
+    <li><strong>Aparece “Ver 30x”</strong> en la tarjeta, con el link del borrador en Canva.</li>
+    <li><strong>Vos abrís el Canva, ajustás y aprobás.</strong> La IA hace el borrador; vos decidís.</li>
+  </ol>
+
+  <div class="intro" style="margin-top:6mm;">
+    <p style="font-weight:700; margin-bottom:2mm;">Qué hace la IA — y qué no</p>
+    <p style="margin-bottom:0;">Transpone el contenido del referente al formato 30x, en español, <strong>sin inventar datos ni cifras</strong>. No decide por vos: siempre queda un <strong>borrador para tu revisión</strong>.</p>
+  </div>
+
+  <h3 style="margin-top:8mm;">Problemas comunes</h3>
+  <table>
+    <thead><tr><th>Síntoma</th><th>Qué pasa / qué hacer</th></tr></thead>
+    <tbody>
+      <tr><td>Aprieto “Generar 30x” y no pasa nada</td><td><strong>No hay ningún worker prendido.</strong> Prendé el tuyo (Parte 2).</td></tr>
+      <tr><td>Canva da error o pide login</td><td>El conector caducó (pasa cada ~90 días). Reconectá Canva con la cuenta 30x.</td></tr>
+      <tr><td>No baja el referente de Instagram</td><td>Tu navegador de Playwright no está logueado en IG. Abrilo e iniciá sesión.</td></tr>
+      <tr><td>El job quedó en <strong>“failed”</strong></td><td>Mirá el motivo en el error. Suele ser: la referencia no es un carrusel, o alguno de los dos puntos de arriba.</td></tr>
+      <tr><td>El diseño salió con la marca equivocada</td><td>Todavía no están cargadas las plantillas por avatar (ver Límites).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ LÍMITES ============ -->
+<section class="part">
+  <div class="part-head">
+    <span class="part-num">Ojo</span>
+    <h2>Límites actuales</h2>
+    <span class="part-note">Para que no te sorprendan</span>
+  </div>
+
+  <ul class="limits">
+    <li><strong>El worker toma TODOS los pendientes, no solo los tuyos.</strong> El filtro por diseñadora está pendiente de desarrollo. Por ahora: <strong>coordinen quién corre el worker</strong> para no pisarse.</li>
+    <li><strong>Las plantillas por avatar aún no están cargadas</strong> → los borradores usan un molde interino, así que la <em>piel</em> puede no ser la de la cuenta destino. El contenido sí es correcto.</li>
+    <li><strong>No es 100% automático:</strong> requiere tu worker prendido, y reconectar Canva cada ~90 días.</li>
+    <li><strong>Referentes muy elaborados</strong> (gráficos, timelines, ilustraciones) no se reproducen tal cual: la IA transpone el <strong>contenido</strong>, no los gráficos personalizados.</li>
+  </ul>
+
+  <div class="foot">
+    <div><strong>¿Dudas o algo falla?</strong> <span class="muted">Hablá con Mateo. Si el problema es de la solicitud/board → Prewave. Si es del borrador → el molde/plantilla.</span></div>
+    <span class="badge">30X</span>
+  </div>
+</section>
+
+</body>
+</html>

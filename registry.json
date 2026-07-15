@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "purpose": "Registry machine-readable de la biblioteca de layouts 30x. Lo consume el agente (AGENT.md) para reconstruir carruseles de Instagram en formato 30x via el MCP de Canva.",
+    "updated": "2026-07-08",
+    "canva_account": "30x (brand kit Inter: kAHMA2FKdfA)",
+    "base_size": { "width": 1080, "height": 1350, "ratio": "4:5" }
+  },
+
+  "masters": {
+    "comparative": {
+      "design_id": "DAHOV4jYR94",
+      "title": "Reunion Nunca digas / Di",
+      "pages": 8,
+      "cover_page": 1,
+      "slot_pages": [2, 3, 4, 5, 6],
+      "insight_page": 7,
+      "cta_page": 8,
+      "max_slots": 5,
+      "note": "Layout comparativo ✕/✓. Ceiling 5 slots (la API no duplica paginas). Para mas, un humano debe duplicar slides en Canva una vez."
+    },
+    "single_tip": {
+      "design_id": "DAHOS_C5pck",
+      "title": "Carrusel Ventas (Si le vendes a X... vendele Y)",
+      "pages": 15,
+      "cover_page": 1,
+      "slot_pages": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      "cta_page": 15,
+      "max_slots": 13,
+      "note": "Layout tip de un bloque. Slots de sobra (13). Verificar roles exactos con start-editing-transaction en runtime."
+    },
+    "data": {
+      "design_id": "DAHOtxP-Dpk",
+      "title": "Carrusel Multipliers 30x (datos)",
+      "pages": 7,
+      "note": "Laminas de dato/estadistica + fuentes. Verificar cover/cta en runtime."
+    },
+    "multipliers_kit": {
+      "design_id": "DAHOwdu6BnM",
+      "title": "30X Carousel Studio - Multipliers",
+      "pages": 6,
+      "note": "Kit maestro: portada + dato + comparativo + principio + proceso + cierre, uno de cada. Bueno para carruseles cortos mixtos."
+    },
+    "editorial_image": {
+      "design_id": "DAHOuNLeAHQ",
+      "title": "IA burbuja (BoE) v2",
+      "pages": 7,
+      "note": "Editorial oscuro con foto por lamina. Trae notas de arte + placeholders de imagen (tokens Replace/Edit)."
+    },
+    "event": {
+      "design_id": "DAHORqXRR0o",
+      "title": "Programa Inmersivo CDMX",
+      "pages": 4,
+      "note": "Promo de evento presencial: fechas, sede, speakers, agenda."
+    }
+  },
+
+  "layouts": {
+    "L1_cover":       { "master": "comparative", "page": 1, "fields": ["kicker", "titulo_grande", "subtitulo", "bajada", "cta_swipe"], "fixed": ["logo_30x", "foto_fondo?"] },
+    "L2_data":        { "master": "data", "fields": ["stat", "stat_desc", "cuerpo", "fuente"], "fixed": ["logo_30x", "handle", "tagline"] },
+    "L3_compare":     { "master": "comparative", "slotset": true, "fields": ["header_l1", "header_l2", "frase_mal", "frase_bien", "sublabel?"], "fixed": ["label_mal:✕ Nunca digas", "label_bien:✓ Di", "barras_verdes", "logo_30x"] },
+    "L4_principle":   { "master": "multipliers_kit", "page": 4, "fields": ["quote", "desarrollo"], "fixed": ["logo_30x", "handle", "tagline"] },
+    "L5_process":     { "master": "multipliers_kit", "page": 5, "fields": ["titulo", "subtitulo", "paso1_num", "paso1_titulo", "paso1_desc", "paso2_num", "paso2_titulo", "paso2_desc", "paso3_num", "paso3_titulo", "paso3_desc"], "fixed": ["logo_30x", "handle", "tagline"] },
+    "L6_single_tip":  { "master": "single_tip", "slotset": true, "fields": ["titulo_tip", "cuerpo", "remate?"], "fixed": ["logo_30x", "handle", "tagline"] },
+    "L7_editorial":   { "master": "editorial_image", "slotset": true, "fields": ["nota_arte", "img_slot", "num_pagina", "kicker", "hook", "cuerpo", "fuente"], "fixed": ["logo_30x", "tagline:Aprende · Conecta · Crece"] },
+    "L8_cta":         { "master": "comparative", "page": 8, "fields": ["remate_l1", "remate_l2", "cta", "handle"], "fixed": ["logo_30x", "icono_guardar"] },
+    "L9_insight":     { "master": "comparative", "page": 7, "fields": ["headline", "sub"], "fixed": ["logo_30x"] },
+    "L10_event":      { "master": "event", "fields": ["fechas", "sede", "speakers", "agenda", "negacion", "cta"], "fixed": ["logo_30x"] }
+  },
+
+  "classifier_rules": [
+    { "if": "es la 1a slide, titulo grande + swipe/desliza", "layout": "L1_cover" },
+    { "if": "numero o % dominante + linea de fuente", "layout": "L2_data" },
+    { "if": "dos columnas o patron 'no digas/di' | 'antes/despues' | '✕/✓'", "layout": "L3_compare" },
+    { "if": "frase entre comillas centrada, tono tesis", "layout": "L4_principle" },
+    { "if": "lista de pasos numerados 1/2/3", "layout": "L5_process" },
+    { "if": "consejo unico con parrafo, sin contraste", "layout": "L6_single_tip" },
+    { "if": "foto protagonista + dato editorial", "layout": "L7_editorial" },
+    { "if": "ultima slide, sigueme/guarda/link", "layout": "L8_cta" },
+    { "if": "idea puente antes del cierre", "layout": "L9_insight" },
+    { "if": "fechas + lugar + agenda de evento", "layout": "L10_event" }
+  ],
+
+  "count_rules": {
+    "copy_design_can": ["subset", "reorder"],
+    "copy_design_cannot": ["repeat/duplicate una pagina (falla con 'Design not found')"],
+    "editing_api_page_ops": "ninguna (no add/duplicate/delete page)",
+    "rule": "Elegir el master cuyo tipo tenga >= slots necesarios; copiar con page_numbers subseteando a la longitud exacta (cover + N slots + cta). No exceder max_slots del master.",
+    "no_delete_design": "El MCP de Canva no expone borrar disenos; las copias de prueba quedan en la cuenta."
+  },
+
+  "brand_config_by_program": {
+    "_note": "Canonico segun valores OBSERVADOS (usuario 2026-07-08 'usa los observados'). Default = multipliers. MIGRADO 2026-07-09: la fuente de verdad de marca/voz/plantillas ahora es POR AVATAR en avatars/<slug>/adn.json (ADN packs, ver ORCHESTRATOR.md); este bloque queda como fallback/legado.",
+    "default": "multipliers",
+    "multipliers": { "handle": "@30xmultipliers", "tagline": "No es para todos. Es para quien quiere mas", "cta": "Aplica al proceso →", "voz": "voseo (vos/aplica/segui)" },
+    "crece30x":    { "handle": "@crece30x", "tagline": "Sigue para aprender de los mejores", "cta": "Siguenos y guarda", "voz": "tuteo/neutral (tu/sigue)" },
+    "andres":      { "handle": "@andres_bilbao0", "tagline": "El contenido pasa. El conocimiento se queda.", "cta": "Siguenos y guarda", "voz": "tuteo/neutral (tu/sigue)" }
+  },
+
+  "prewave_intake": {
+    "_note": "FUENTE CORRECTA (verificada en vivo 2026-07-08): el board de DISENO (/design-requests), NO el Tinder de produccion. Ahi viven las solicitudes de carrusel con referencias IG DIRECTAS (sin join). Base: https://api.prewave.oracle30x.co/api/v1 (OJO: los GET de coleccion van SIN barra final; /production/ da 404, /production 200).",
+    "base_url": "https://api.prewave.oracle30x.co/api/v1",
+    "auth": { "metodo": "Authorization: Bearer <token>", "obtener": "POST /auth/login {email,password} -> {token}; o leer cookie prewave_token (no httpOnly) de una sesion web logueada (metodo usado en la prueba)", "perms": "design:work para entregar (deliver) + autoasignar; design:review para revisar/aprobar" },
+    "queue_agent_jobs": {
+      "_nota": "Cola canónica del worker (PR #306, tras merge). El botón 'Generar 30x' en /diseno encola aquí.",
+      "list_pending": "GET /agent-jobs?status=pending  (auth X-API-Key = PIPELINE_API_KEY)",
+      "claim_done_fail": "PATCH /agent-jobs/:id {status: processing|done|failed, result_url?, error?}",
+      "enqueue_desde_ui": "POST /design-requests/:id/enqueue-30x (JWT design:work/review) — lo llama el botón, NO el worker",
+      "cliente": "scripts/queue_client.py",
+      "runbook": "WORKER.md"
+    },
+    "list_queue_directo": {
+      "_nota": "Alternativa sin cola: leer el board directo (antes del PR #306). El worker canónico usa queue_agent_jobs.",
+      "endpoint": "GET /design-requests",
+      "respuesta": "{ items:[], events, can_review, can_work, is_admin, me }",
+      "filtro_agente": "items donde reference_urls tiene link instagram.com/(p|reel)/  Y  status in ('solicitado','en_diseno')  Y  !deliverable_url.  OJO: NO filtrar por asset_types — es poco fiable (verificado 2026-07-08: 43 de 45 solicitudes accionables traen asset_types vacio; solo 1 dice 'carrusel'). El referente IG es la senal buena. (Opcional: descartar refs que sean reel de VIDEO si se quiere solo carruseles de imagen — decidir en runtime al leer las slides.)",
+      "volumen_real_2026-07-08": "45 solicitudes accionables con referente IG (44 en_diseno mayormente de Alejandra/Laura + 1 solicitado 'Proceso comercial').",
+      "ya_hecho": "saltar si deliverable_url != null"
+    },
+    "field_map": {
+      "request_id": "item.id",
+      "status": "item.status  (solicitado -> en_diseno -> revision -> entregado; +rechazado/correccion)",
+      "referente_ig": "item.reference_urls[]  filtrado a instagram.com/(p|reel)/  (DIRECTO en la solicitud, sin join)",
+      "titulo": "item.title", "objetivo": "item.objective",
+      "programa": "item.programs[]  (mapear a brand_config_by_program)",
+      "disenadora": "item.assigned_designer_id / assigned_designer_name",
+      "urgencia": "item.urgency", "deadline": "item.deadline"
+    },
+    "writeback": {
+      "DECISION": "deliver como borrador. POST /design-requests/:id/deliver con { deliverableUrl:<edit_url Canva>, deliverableNotes:'borrador generado por agente - revisar' } (VERIFICAR nombres exactos del body en runtime) -> escribe deliverable_url y mueve en_diseno->revision; Isabella (revisora) revisa/aprueba.",
+      "prerequisito": "la solicitud debe estar en 'en_diseno' (asignada). Si esta 'solicitado', primero aceptar/asignar; el agente puede autoasignarse con design:work.",
+      "endpoints_flujo": "accept/assign, deliver, approve/return, reassign (routers/design-requests.ts)"
+    },
+    "trigger": {
+      "DECISION": "al aceptar/asignar en el board de diseno",
+      "realidad": "el agente = Claude + MCPs, NO corre en el backend Cloud Run. => ENQUEUE al pasar a en_diseno + DRAIN por un runner (Claude).",
+      "fase1_sin_codigo": "el runner drena la cola implicita = GET /design-requests filtrado (ver list_queue). A demanda o en loop. Valida sin tocar Prewave.",
+      "fase2_evento_real": "PR en Prewave: al transicionar a en_diseno (routers/design-requests.ts) encolar solicitudes carrusel+refIG; un Claude cloud agent drena y corre el agente."
+    }
+  },
+
+  "known_limits": {
+    "no_font_change": "perform-editing-operations no cambia familia tipografica; el master ya trae Inter.",
+    "replace_text_loses_word_highlight": "replace_text reemplaza el texto completo del elemento y pierde el color/resaltado por-palabra. Para conservar el verde en una palabra, esa palabra debe ser su propio elemento en el master.",
+    "no_draft_thumbnail": "get-design-thumbnail con transaction_id no funciona; para ver hay que commit + get-design-pages.",
+    "stale_cdn_fallback": "el 'fallback' S3 de get-design-pages puede venir cacheado (version vieja); la fuente de verdad es el edit_url o los renders inline de perform-editing-operations."
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "avatar": {
+    "slug": "andres",
+    "name": "Andrés Bilbao",
+    "prewave_avatar_id": "",
+    "prewave_program_match": ["Andres Bilbao", "Cuenta Andres Bilbao"]
+  },
+
+  "brand": {
+    "handle": "@andres_bilbao0",
+    "tagline": "El contenido pasa. El conocimiento se queda.",
+    "cta_default": "Síguenos y guarda",
+    "voice": "tuteo/neutral (tú, sigue, comenta)"
+  },
+
+  "voice_dna": {
+    "tono": ["directo", "de negocios", "sin relleno"],
+    "do": [
+      "hablar en tú (tuteo neutral LatAm)",
+      "mantener las cifras/datos EXACTOS del referente",
+      "cerrar con CTA de comentar/seguir"
+    ],
+    "dont": [
+      "NO inventar cifras, fuentes ni datos que no estén en el referente",
+      "NO usar voseo argentino ni marca de otros avatares (Multipliers, etc.)",
+      "NO cambiar el significado del referente; solo transponer al formato 30x"
+    ]
+  },
+
+  "templates": {
+    "_nota": "design_id vacío = plantilla del avatar aún no entregada. El orquestador SALTA este avatar hasta que status='ready'. Rellenar con los design_id que compartan por avatar.",
+    "cover":       { "design_id": "", "page": 1 },
+    "data":        { "design_id": "", "slot_pages": [] },
+    "comparative": { "design_id": "DAHOV4jYR94", "cover_page": 1, "slot_pages": [2,3,4,5,6], "insight_page": 7, "cta_page": 8, "_ready": true, "_nota": "molde comparativo ya brandeado Andrés (su foto, @andres_bilbao0)" },
+    "single_tip":  { "design_id": "", "slot_pages": [] },
+    "principle":   { "design_id": "", "page": null },
+    "process":     { "design_id": "", "page": null },
+    "insight":     { "design_id": "", "page": null },
+    "cta":         { "design_id": "", "page": null }
+  },
+
+  "status": "draft",
+  "_status_help": "draft = plantillas incompletas, NO procesar (evita el problema del piloto: piel equivocada). ready = todos los templates que se van a usar tienen design_id → el orquestador lo incluye en la cola."
+}
