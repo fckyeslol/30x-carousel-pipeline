@@ -187,6 +187,11 @@
     <span class="part-note">Una sola vez · ~30 min</span>
   </div>
 
+  <div class="callout" style="background:#F4FBE8; border-color:#DCEFB4;">
+    <span class="ic" style="color:var(--lime-deep);">✓</span>
+    <div><strong>Antes de empezar, asegurate de tener:</strong> una cuenta con <strong>plan de Claude</strong> · acceso a la cuenta de <strong>Canva de 30x</strong> · una cuenta de <strong>Instagram</strong> · y <strong>Git</strong> y <strong>Python</strong> instalados (gratis: <a href="https://git-scm.com">git-scm.com</a> · <a href="https://python.org">python.org</a>). Sin Git no podés clonar el repo; sin Python el worker falla a mitad.</div>
+  </div>
+
   <h3><span class="step-n">1</span> Instalar Claude Code</h3>
   <p>Necesitás Claude Code y una cuenta/plan de Claude. Descarga e instrucciones en <a href="https://claude.com/code">claude.com/code</a>.</p>
   <p class="muted">Si te trabás acá, pedí ayuda a Mateo/IT — es el paso más técnico de todos.</p>
@@ -200,11 +205,16 @@
   <p>Instalá el <strong>MCP de Playwright</strong> en Claude <span class="muted">(comando típico: <code>claude mcp add playwright npx @playwright/mcp@latest</code> — confirmá con Mateo/IT)</span>. Después <strong>abrí ese navegador una vez e iniciá sesión en Instagram</strong>: la sesión queda guardada.</p>
   <div class="callout"><span class="ic">⚠</span><div>Si no estás logueada en Instagram, <strong>las descargas fallan</strong> (Instagram bloquea a los no logueados).</div></div>
 
-  <h3><span class="step-n">4</span> Copiar la carpeta del pipeline</h3>
-  <p>Pedile a Mateo la carpeta <code>30x-carousel-pipeline</code> (o el link del repo) y guardala en tu compu. Ahí viven las plantillas, la lógica y los scripts.</p>
+  <h3><span class="step-n">4</span> Clonar el repo del pipeline</h3>
+  <p>Ahí viven las plantillas, la lógica y los scripts. Abrí una terminal, ubicate donde quieras guardarlo y corré:</p>
+<pre><span class="cmd">git clone</span> https://github.com/fckyeslol/30x-carousel-pipeline.git</pre>
+  <p class="muted">Más adelante, para traer actualizaciones: <code>git pull</code> dentro de esa carpeta.</p>
 
-  <h3><span class="step-n">5</span> Cargar la llave de acceso</h3>
-  <p>Pedile a Mateo la <code>PIPELINE_API_KEY</code> y guardala como variable de entorno con ese nombre. Es lo que le permite a tu worker leer la cola de trabajos.</p>
+  <h3><span class="step-n">5</span> Acceso a la cola <span style="font-size:8pt; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); background:var(--amber); padding:1mm 2.5mm; border-radius:1.5mm; margin-left:2mm;">Pendiente</span></h3>
+  <div class="callout">
+    <span class="ic">⏸</span>
+    <div><strong>No hagas nada todavía en este paso.</strong> Estamos sacando un cambio para que entres con <strong>tu propio usuario de Prewave</strong> (el mismo del board) en vez de manejar una clave. <strong>Te avisamos cuando esté</strong> y actualizamos esta guía. Mientras tanto, completá los pasos 1 a 4 — son los que más tardan y no cambian.</div>
+  </div>
 </section>
 
 <!-- ============ PARTE 2 ============ -->
@@ -213,6 +223,11 @@
     <span class="part-num">Parte 2</span>
     <h2>Prender tu worker</h2>
     <span class="part-note">Cada vez que vas a trabajar</span>
+  </div>
+
+  <div class="callout">
+    <span class="ic">⏸</span>
+    <div><strong>Esta parte todavía no se puede usar</strong> — depende del <strong>paso 5</strong>, que está pendiente. Te avisamos apenas esté listo. Dejamos las instrucciones acá para que ya las tengas.</div>
   </div>
 
   <p>Abrí <strong>Claude Code</strong> dentro de la carpeta <code>30x-carousel-pipeline</code>, pegá esto y dale enter:</p>

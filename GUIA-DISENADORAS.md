@@ -13,6 +13,11 @@ prendido, el trabajo queda encolado esperando. Por eso esta guía: dejar tu work
 
 ## PARTE 1 · Setup (una sola vez, ~30 min)
 
+> **Antes de empezar, asegurate de tener:** una cuenta con **plan de Claude** · acceso a la cuenta de
+> **Canva de 30x** · una cuenta de **Instagram** · y **Git** y **Python** instalados (gratis:
+> [git-scm.com](https://git-scm.com) · [python.org](https://python.org)).
+> Sin Git no podés clonar el repo; sin Python el worker falla a mitad.
+
 ### 1. Instalar Claude Code
 Necesitás Claude Code y una cuenta/plan de Claude. Descarga e instrucciones: **https://claude.com/code**
 > Si te trabás acá, pedí ayuda a Mateo/IT — es el paso más técnico.
@@ -28,17 +33,25 @@ La IA necesita un navegador propio para bajar las slides del referente.
 - **Abrí ese navegador una vez e iniciá sesión en Instagram.** La sesión queda guardada.
 > ⚠️ Si no estás logueada en IG, las descargas fallan (Instagram bloquea a los no logueados).
 
-### 4. Copiar la carpeta del pipeline
-Pedile a Mateo la carpeta **`30x-carousel-pipeline`** (o el link del repo) y guardala en tu compu.
-Ahí viven las plantillas, la lógica y los scripts.
+### 4. Clonar el repo del pipeline
+Ahí viven las plantillas, la lógica y los scripts. Abrí una terminal, ubicate donde quieras guardarlo y corré:
 
-### 5. Cargar la llave de acceso
-Pedile a Mateo la **`PIPELINE_API_KEY`** y guardala como variable de entorno con ese nombre.
-Es lo que le permite a tu worker leer la cola de trabajos.
+```
+git clone https://github.com/fckyeslol/30x-carousel-pipeline.git
+```
+> Más adelante, para traer actualizaciones: `git pull` dentro de esa carpeta.
+
+### 5. Acceso a la cola — ⏸️ PENDIENTE
+> **No hagas nada todavía en este paso.** Estamos sacando un cambio para que entres con **tu propio
+> usuario de Prewave** (el mismo del board) en vez de manejar una clave. **Te avisamos cuando esté** y
+> actualizamos esta guía. Mientras tanto, completá los pasos 1 a 4 — son los que más tardan y no cambian.
 
 ---
 
 ## PARTE 2 · Prender tu worker (cada vez que vas a trabajar)
+
+> ⏸️ **Esta parte todavía no se puede usar** — depende del **paso 5**, que está pendiente.
+> Te avisamos apenas esté listo. Dejamos las instrucciones acá para que ya las tengas.
 
 1. Abrí **Claude Code** dentro de la carpeta `30x-carousel-pipeline`.
 2. Pegá esto y dale enter:
