@@ -31,17 +31,13 @@
     "fondos": ["FONDO 1 - IMAGEN", "FONDO 2 - PLANO", "FONDO 3 - FOTO MENTOR", "FONDO 4 - DEGRADÉ"]
   },
 
-  "templates": {
-    "_nota": "design_id de la plantilla 30x del avatar por tipo de lámina. Vacío = pendiente. slot_pages = páginas repetibles de ese tipo dentro del molde. Ver layouts-library.md para qué es cada tipo.",
-    "cover":       { "design_id": "", "page": 1 },
-    "data":        { "design_id": "", "slot_pages": [] },
-    "comparative": { "design_id": "", "slot_pages": [] },
-    "single_tip":  { "design_id": "", "slot_pages": [] },
-    "principle":   { "design_id": "", "page": null },
-    "process":     { "design_id": "", "page": null },
-    "insight":     { "design_id": "", "page": null },
-    "cta":         { "design_id": "", "page": null }
+  "canvas": {
+    "_nota": "Lienzo de ADN. NO es una plantilla de layout: es materia prima tipográfica — un diseño con la fuente y el fondo del avatar ya horneados, más una reserva de bloques de texto vacíos que el agente esculpe contra la estructura del referente. Existe solo porque la API de Canva no puede crear texto (`insert_fill` es solo imagen/video) ni cambiar la familia tipográfica. La estructura SIEMPRE viene del referente, nunca de acá.",
+    "design_id": "",
+    "pages": 12,
+    "blocks_per_page": 8
   },
 
-  "status": "draft"
+  "status": "draft",
+  "_status_nota": "ready cuando visual_identity esté completo Y canvas.design_id exista."
 }

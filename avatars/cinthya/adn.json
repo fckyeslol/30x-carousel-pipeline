@@ -48,17 +48,14 @@
     "gradiente": true
   },
 
-  "templates": {
-    "_nota": "PENDIENTE: el manual de ADN da los ESTILOS, no los layouts de carrusel. Falta construir en Canva un master de carrusel para Cinthya en Instrument Serif + su paleta (ver TEMPLATES-INTAKE.md), y pegar acá su design_id por tipo de lámina.",
-    "cover":       { "design_id": "", "page": 1 },
-    "data":        { "design_id": "", "slot_pages": [] },
-    "comparative": { "design_id": "", "slot_pages": [] },
-    "single_tip":  { "design_id": "", "slot_pages": [] },
-    "principle":   { "design_id": "", "page": null },
-    "process":     { "design_id": "", "page": null },
-    "insight":     { "design_id": "", "page": null },
-    "cta":         { "design_id": "", "page": null }
+  "canvas": {
+    "_nota": "Lienzo de ADN: NO es una plantilla de layout. Es materia prima tipográfica — un diseño con Instrument Serif y el fondo de Cinthya ya horneados, más una reserva de bloques de texto vacíos que el agente esculpe. Existe solo porque la API de Canva no puede crear texto ni cambiar la familia tipográfica. La estructura SIEMPRE viene del referente. Ver AGENT.md → Paso 4.",
+    "design_id": "",
+    "pages": 12,
+    "blocks_per_page": 8,
+    "_pendiente": "Crear con scripts/build_canvas.py (mecanismo validado); requiere un ajuste manual único del fondo."
   },
 
-  "status": "draft"
+  "status": "draft",
+  "_status_nota": "ready cuando visual_identity esté completo Y canvas.design_id exista. El ADN de Cinthya ya está completo: lo único que falta es el lienzo."
 }
