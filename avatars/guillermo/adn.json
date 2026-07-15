@@ -3,9 +3,12 @@
     "slug": "guillermo",
     "name": "Guillermo Jaramillo",
     "prewave_avatar_id": "",
-    "prewave_program_match": ["Guillermo Jaramillo", "Guillermo", "Cuenta Guillermo"]
+    "prewave_program_match": [
+      "Guillermo Jaramillo",
+      "Guillermo",
+      "Cuenta Guillermo"
+    ]
   },
-
   "brand": {
     "handle": "",
     "_handle_TODO": "Falta el handle de IG de Guillermo — el manual de ADN no lo incluye (usa firma, no handle).",
@@ -13,9 +16,12 @@
     "cta_default": "Síguenos y guarda",
     "voice": "tuteo/neutral (a confirmar con él)"
   },
-
   "voice_dna": {
-    "tono": ["directo", "ejecutivo", "de acción"],
+    "tono": [
+      "directo",
+      "ejecutivo",
+      "de acción"
+    ],
     "do": [
       "mantener cifras/datos EXACTOS del referente",
       "posicionamiento: Transformador digital · Former CEO KPMG Colombia · hoy lidera transformación e IA en BBVA Colombia",
@@ -28,10 +34,9 @@
       "NO usar la tipografía ni la paleta de otro avatar"
     ]
   },
-
   "visual_identity": {
     "_fuente": "Manual '8 marcas · 1 ADN' — ADN 2 GUILLERMO JARAMILLO. Canva design DAHPd_cI5B0, en la cuenta de Canva de 30x (link con token: pedirlo internamente, NO va en este repo).",
-    "_nota_critica": "La API de Canva NO cambia la familia tipográfica: para que un carrusel salga en Open Sans, su TEMPLATE debe estar construido en esa fuente. Esta spec sirve para CONSTRUIR/validar la plantilla, no para que el agente la aplique por texto.",
+    "_nota_critica": "La API de Canva NO cambia la familia tipográfica ni puede crear texto. Por eso esta identidad se hornea UNA vez en el lienzo de ADN (ver canvas), y el agente esculpe sobre él. Esta spec es la fuente de verdad del lienzo, no algo que se aplique por texto en cada carrusel.",
     "titulo_rol": "Transformador digital — Former CEO / KPMG Colombia",
     "firma": "30X / GUILLERMO JARAMILLO",
     "tipografia": {
@@ -40,25 +45,45 @@
       "nota": "Sans humanista, neutral y legible; optimizada para print, web y mobile."
     },
     "paleta": [
-      { "hex": "#F6F5F0", "nombre": "30% White", "rol": "base/fondo claro" },
-      { "hex": "#000000", "nombre": "Negro", "rol": "complementario" },
-      { "hex": "#C9C9C7", "nombre": "Gris claro", "rol": "complementario" },
-      { "hex": "#FFD400", "nombre": "Amarillo", "rol": "principal (acento)" }
+      {
+        "hex": "#F6F5F0",
+        "nombre": "30% White",
+        "rol": "base/fondo claro"
+      },
+      {
+        "hex": "#000000",
+        "nombre": "Negro",
+        "rol": "complementario"
+      },
+      {
+        "hex": "#C9C9C7",
+        "nombre": "Gris claro",
+        "rol": "complementario"
+      },
+      {
+        "hex": "#FFD400",
+        "nombre": "Amarillo",
+        "rol": "principal (acento)"
+      }
     ],
-    "_paleta_nota": "El manual marca dos COMPLEMENTARIO y un PRINCIPAL; el amarillo #FFD400 es el acento distintivo de Guillermo (equivalente al rol que el verde lima cumple en la marca 30x). Confirmar el mapeo exacto de roles visualmente antes de construir la plantilla.",
-    "fondos": ["FONDO 1 - IMAGEN", "FONDO 2 - PLANO", "FONDO 3 - FOTO MENTOR", "FONDO 4 - DEGRADÉ"],
+    "_paleta_nota": "El manual marca dos COMPLEMENTARIO y un PRINCIPAL; el amarillo #FFD400 es el acento distintivo de Guillermo (equivalente al rol que el verde lima cumple en la marca 30x). Confirmar el mapeo exacto de roles visualmente y corregir el lienzo si hace falta.",
+    "fondos": [
+      "FONDO 1 - IMAGEN",
+      "FONDO 2 - PLANO",
+      "FONDO 3 - FOTO MENTOR",
+      "FONDO 4 - DEGRADÉ"
+    ],
     "gradiente": true,
     "frase_manifiesto": "DEJA DE TENER MIEDO A SALIR MAL, EMOCIONARTE POR LO QUE PUEDA SALIR BIEN."
   },
-
   "canvas": {
     "_nota": "Lienzo de ADN: NO es una plantilla de layout. Es materia prima tipográfica — un diseño con Open Sans y el fondo de Guillermo ya horneados, más una reserva de bloques de texto vacíos que el agente esculpe. Existe solo porque la API de Canva no puede crear texto ni cambiar la familia tipográfica. La estructura SIEMPRE viene del referente. Ver AGENT.md → Paso 4.",
-    "design_id": "",
+    "design_id": "DAHPfMCDNo4",
     "pages": 12,
     "blocks_per_page": 8,
-    "_pendiente": "Crear con scripts/build_canvas.py (mecanismo validado); requiere un ajuste manual único del fondo."
+    "_pendiente": "AJUSTE MANUAL UNICO: poner el fondo #F6F5F0 en las 12 paginas. El import de HTML no trae background-color. Hasta entonces los carruseles salen con fondo blanco.",
+    "edit_url": "https://www.canva.com/d/ZrHUWoc5SdxI5Ma"
   },
-
-  "status": "draft",
-  "_status_nota": "ready cuando visual_identity esté completo Y canvas.design_id exista. El ADN de Guillermo ya está completo: lo único que falta es el lienzo."
+  "status": "ready",
+  "_status_nota": "ready: ADN completo + lienzo creado (12 paginas x 8 bloques, Open Sans)."
 }

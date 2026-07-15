@@ -3,8 +3,9 @@
 
 Uso: python check_packs.py
 
-Un pack está READY para el orquestador si status=='ready' Y tiene al menos un template con design_id.
-Reporta por avatar: status, templates con design_id, y qué falta. Sirve de checklist al meter plantillas.
+Un pack está READY para el orquestador si status=='ready' Y su lienzo de ADN tiene design_id.
+El lienzo NO es una plantilla de layout: es materia prima tipográfica (ver AGENT.md → Paso 4).
+Reporta por avatar: status, lienzo, y qué falta.
 """
 import json
 import sys
@@ -21,14 +22,13 @@ def load(p):
         return None, str(e)
 
 
-def filled_templates(pack):
-    out = []
-    for k, v in (pack.get("templates") or {}).items():
-        if k.startswith("_"):
-            continue
-        if isinstance(v, dict) and v.get("design_id"):
-            out.append(k)
-    return out
+def canvas_of(pack):
+    """design_id del lienzo de ADN, o None si todavia no se creo."""
+    return (pack.get("canvas") or {}).get("design_id") or None
+
+
+def pending_of(pack):
+    return (pack.get("canvas") or {}).get("_pendiente") or ""
 
 
 def main() -> int:
@@ -42,8 +42,8 @@ def main() -> int:
         return 0
 
     ready, draft = [], []
-    print(f"{'AVATAR':<22} {'STATUS':<8} {'TEMPLATES CON design_id'}")
-    print("-" * 70)
+    print(f"{'AVATAR':<22} {'STATUS':<8} {'LIENZO DE ADN'}")
+    print("-" * 78)
     for p in packs:
         pack, err = load(p)
         if err:
@@ -51,16 +51,19 @@ def main() -> int:
             continue
         slug = pack.get("avatar", {}).get("slug", p.parent.name)
         status = pack.get("status", "?")
-        filled = filled_templates(pack)
-        is_ready = status == "ready" and len(filled) > 0
+        canvas = canvas_of(pack)
+        is_ready = status == "ready" and bool(canvas)
         (ready if is_ready else draft).append(slug)
         flag = "OK" if is_ready else "  "
-        print(f"{flag} {slug:<20} {status:<8} {', '.join(filled) if filled else '(ninguno)'}")
+        print(f"{flag} {slug:<20} {status:<8} {canvas or '(sin lienzo)'}")
+        if is_ready and pending_of(pack):
+            print(f"{'':<32} ^ pendiente: {pending_of(pack)[:50]}")
 
-    print("-" * 70)
+    print("-" * 78)
     print(f"READY para procesar: {len(ready)}  -> {', '.join(ready) or '-'}")
-    print(f"DRAFT (faltan plantillas o status): {len(draft)}  -> {', '.join(draft) or '-'}")
-    print("\nEl orquestador solo procesa los READY. Para activar uno: pega design_id + status:'ready'.")
+    print(f"DRAFT (sin lienzo o sin status): {len(draft)}  -> {', '.join(draft) or '-'}")
+    print("\nEl orquestador solo procesa los READY.")
+    print("Para activar uno: python scripts/build_canvas.py <slug> (ver AGENT.md).")
     return 0
 
 
