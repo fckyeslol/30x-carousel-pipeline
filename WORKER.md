@@ -5,7 +5,8 @@ Toma jobs de la tabla `agent_jobs`, reconstruye el carrusel y devuelve el result
 repo de Prewave** — corre como una sesión/agente de Claude con los MCP conectados.
 
 ## Prerrequisitos
-1. **PR #306 mergeado** en Prewave (crea la tabla + endpoints `/agent-jobs`).
+1. **PR #306 mergeado** en Prewave (crea la tabla + endpoints `/agent-jobs`, origen Diseño).
+   **PR #430 mergeado** (origen Producción, `/produccion`: el job trae `avatar_slug` resuelto por FK — ver Paso 2b).
 2. **`PIPELINE_API_KEY`**: ya está en prod (Secret Manager `pipeline-api-key`, proyecto prewave-prod). El worker la lee en su entorno desde el secret — NO hardcodear:
    `gcloud secrets versions access latest --secret=pipeline-api-key --project prewave-prod`
    y exportarla como `PIPELINE_API_KEY` en el entorno del worker (el `queue_client.py` la manda como `X-API-Key`). Verificado: GET /agent-jobs con la key → 200.
@@ -19,10 +20,15 @@ Por cada ciclo (a demanda, o agendado/`/loop`):
 
 1. **Listar pendientes:** `python scripts/queue_client.py list`
    (→ `list_pending()`; usa `GET /agent-jobs?status=pending` con `X-API-Key`).
-2. Por cada job `{id, design_request_id, reference_url, avatar_hint}`:
+2. Por cada job (dos formas posibles — mirar cuál de las dos trae, ver `AGENT.md` Paso 0):
+   `{id, brief_id, avatar_slug, reference_url}` (origen Producción) o
+   `{id, design_request_id, avatar_hint, reference_url}` (origen Diseño, legacy):
    a. **Reclamar:** `queue_client.claim(id)` (marca `processing`; evita que otro worker lo tome).
-   b. **Resolver avatar:** matchear `avatar_hint` contra `prewave_program_match` de los ADN packs.
-      Si el avatar no está `ready` → `fail(id, "avatar sin plantillas")` y seguir.
+   b. **Resolver avatar:**
+      - Si trae `avatar_slug` (origen Producción, `brief_id` no-null) → usarlo **directo**, sin heurística.
+      - Si no (origen Diseño, `design_request_id` no-null) → matchear `avatar_hint`/`programs`/`objective`
+        contra `prewave_program_match` de los ADN packs, como antes.
+      - Si el avatar resuelto no está `ready` → `fail(id, "avatar sin plantillas")` y seguir.
    c. **Reconstruir** siguiendo `AGENT.md` (Pasos 1–4) con **solo** `reference_url` como origen y el
       **ADN pack de ese avatar** (aislamiento). Descarga slides → visión → clasifica → copy-design del
       template del avatar → rellena en español con la voz del ADN → commit. Conservar datos EXACTOS.

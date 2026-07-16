@@ -36,11 +36,25 @@ referente), **no** como catálogo de selección. Cualquier estructura nueva es v
 
 ## Paso 0 — Intake
 
-Del board de Diseño (`/design-requests`) o de la cola `agent_jobs`. Ver `registry.json → prewave_intake`.
+De la cola `agent_jobs` (GET /agent-jobs). Ver `registry.json → prewave_intake`. Cada job trae exactamente UNO
+de estos dos orígenes (nunca ambos, nunca ninguno):
+
+- **Origen Producción** (`brief_id` no-null) — el board `/produccion`. Preferido: el job ya trae
+  `avatar_slug`/`avatar_id`/`avatar_name` resueltos por el backend (FK real a `curated_briefs.avatar_id`,
+  ver Prewave PR #430). `avatar_hint` viene en null a propósito — no usarlo para estos jobs.
+- **Origen Diseño (legacy)** (`design_request_id` no-null) — el board `/diseno`. Esa tabla no tiene avatar;
+  trae `title`/`objective`/`programs` y `avatar_hint` (heurística, puede ser null).
+
+Pasos:
 1. Autenticarse: `Authorization: Bearer <token>` (login o cookie `prewave_token`).
-2. Tomar la solicitud → extraer `request_id`, `referente_url`, `title`, `objective`, `programs`.
-3. **Resolver el avatar y cargar SU ADN pack** (`avatars/<slug>/adn.json`) matcheando `programs`/`objective`
-   contra `prewave_program_match`. Si no está `ready` → dejar en cola, no procesar.
+2. Tomar el job → extraer `reference_url` y, según el origen: `avatar_slug` (Producción) o
+   `title`/`objective`/`programs`/`avatar_hint` (Diseño).
+3. **Resolver el avatar y cargar SU ADN pack** (`avatars/<slug>/adn.json`):
+   - Si el job trae `avatar_slug` (origen Producción) → usarlo **directo**, sin heurística. Es el mismo
+     slug que la carpeta `avatars/<slug>/`.
+   - Si no (origen Diseño legacy) → matchear `programs`/`objective`/`avatar_hint` contra
+     `prewave_program_match`, como antes.
+   - En ambos casos: si el avatar resuelto no está `ready` → dejar en cola / `fail(id, "avatar sin plantillas")`, no procesar.
 4. A partir de acá: **solo** el referente como fuente de contenido y **solo** ese ADN como identidad.
    Nada de otro avatar. Ver contrato de aislamiento en `ORCHESTRATOR.md`.
 

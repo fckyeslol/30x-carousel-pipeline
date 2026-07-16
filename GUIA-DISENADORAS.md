@@ -2,9 +2,14 @@
 
 ## ¿Qué es esto?
 
-En el board de **Diseño** (`prewave.oracle30x.co/diseno`), las solicitudes que traen un **referente de Instagram**
+En el board de **Producción** (`prewave.oracle30x.co/produccion`) y en el de **Diseño**
+(`prewave.oracle30x.co/diseno`), los carruseles que traen un **referente de Instagram o TikTok**
 tienen un botón **"Generar 30x"**. Al apretarlo, una IA baja ese carrusel de referencia, lo reconstruye con el
 formato 30x y te deja un **borrador en Canva** listo para que lo ajustes y lo apruebes.
+
+> Desde Producción es el camino **preferido**: ese carrusel ya sabe de qué avatar es (columna del avatar en
+> el kanban), así que la IA carga su ADN directo. Desde Diseño (solicitudes viejas del webhook de Slack) la
+> IA todavía tiene que inferir el avatar por el programa — puede fallar si no lo reconoce.
 
 **Importante:** la IA no genera sola en la nube. Corre un "**worker**" **en tu computadora**. Si tu worker no está
 prendido, el trabajo queda encolado esperando. Por eso esta guía: dejar tu worker listo y prendido.
@@ -91,7 +96,7 @@ cerrá con PATCH {status:"done", resultUrl:"<link de Canva>"} o
 
 ## PARTE 3 · El flujo de trabajo
 
-1. En **`/diseno`**, una solicitud con referente de IG muestra el botón **"Generar 30x"**.
+1. En **`/produccion`** (preferido) o en **`/diseno`**, un carrusel con referente muestra el botón **"Generar 30x"**.
 2. Alguien lo aprieta → el trabajo se **encola**.
 3. Tu worker lo toma (en el próximo ciclo) → la tarjeta pasa a **"generando"**.
 4. Cuando termina, en la tarjeta aparece **"Ver 30x"** con el link del borrador en Canva.

@@ -9,9 +9,17 @@ Auth (PR #424): DOS modos, y el router elige.
     Se saca con `python scripts/login.py` (queda en .prewave-token).
   - Ops: la pipeline API key -> la cola completa.
 
-Contrato de endpoints (PR #306 + #424, /api/v1):
-  GET   /agent-jobs?status=pending          -> [{id, design_request_id, reference_url, avatar_hint, status, ...}]
+Contrato de endpoints (PR #306 + #424 + #430, /api/v1):
+  GET   /agent-jobs?status=pending -> [{id, reference_url, status,
+          # origen Producción (brief_id no-null, preferido — trae el avatar por FK):
+          brief_id, avatar_id, avatar_slug, avatar_name, content_format,
+          # origen Diseño legacy (design_request_id no-null; avatar_* arriba vienen null):
+          design_request_id, avatar_hint,
+          ...}]
   PATCH /agent-jobs/:id  {status, result_url?, error?}
+
+  Exactamente uno de brief_id / design_request_id viene no-null por job. Para resolver el
+  avatar, ver AGENT.md Paso 0 / WORKER.md Paso 2b: si viene avatar_slug, usarlo directo.
 
 Env:
   PREWAVE_API_BASE   (default https://api.prewave.oracle30x.co/api/v1)
